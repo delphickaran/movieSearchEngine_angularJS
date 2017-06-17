@@ -1,0 +1,26 @@
+
+.heading{
+    font-size: 48px;
+    color: red;
+    font-weight: 700
+}
+.heading2{
+    font-size: 36px;
+    font-weight: 600
+}
+.heading3{
+    font-size: 24px;
+    font-weight: 500
+}
+.caption{
+    height: 190px;
+}
+.thumbnail{
+    height: 600px;
+}
+a{
+    cursor: pointer;
+}
+.btn{
+    margin-left: 10px;
+}
