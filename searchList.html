@@ -1,18 +1,18 @@
  <div class="container">
         <div class="row">
-          <div class="col-md-3" ng-repeat="d in data" ng-model="indexed($index)">
+          <div class="col-md-3" ng-repeat="d in data">
             <div class="thumbnail">
-              <img src="{{d.poster}}" alt="{{d.show_title}}">
+              <img src="{{d.data.poster}}" alt="{{d.show_title}}">
               <div class="caption">
-                <p>Title : {{d.show_title}}</p>
-                <p>Director : <a ng-click="toGo(d.director)">{{d.director}}</a></p>
-                <p>Cast : <a ng-repeat="f in arrayResult" ng-click="toGoActor(f)">{{f+" "}}</a></p>
+                <p>Title : {{d.data.show_title}}</p>
+                <p>Director : <a ng-click="toGo(d.data.director)">{{d.data.director}}</a></p>
+                <p>Cast : <a ng-repeat="f in d.key" ng-click="toGoActor(f)">{{f+" "}}</a></p>
                
               </div>
                  <a ng-click="back()" class="btn btn-primary" role="button">Back</a>
             </div>
           </div>
         </div>
-     <p class="heading">{{error.data.errorcode }}</p>
+     <p class="heading">{{error.data.errorcode}}</p>
      <p class="heading2">{{error.data.message}}</p>
     </div>

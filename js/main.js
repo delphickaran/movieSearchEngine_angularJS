@@ -41,6 +41,9 @@ myApp.controller('homeController',['$scope','myFactory','$resource','$state','my
     console.log('home controller');
     $scope.selected = "";
     $scope.name = myService.name;
+    $scope.$watch('name',function(){
+        myService.name = $scope.name;
+    })
      $scope.list = myFactory.list;
     $scope.result = function(){
         myService.name = $scope.name;
@@ -55,7 +58,6 @@ myApp.controller('searchListController',['$scope','myFactory','$resource','$stat
      console.log("1st search");
     $scope.selected = $stateParams.id;
     $scope.name = myService.name;
-    console.log(myService.name);
     $scope.back = function(){
         $state.go("home");
     }
@@ -66,12 +68,23 @@ myApp.controller('searchListController',['$scope','myFactory','$resource','$stat
      (function(){    
         if( $scope.selected === "1"){
             $scope.api.get({title:$scope.name},function(data){
-                $scope.data1 = data;
-                $scope.indexed = function(index){ 
-                    $scope.arrayResult = data.show_cast.split(', ');
+                
+                 var data1 = [];
+                 data1.push(data);
+                
+                var arraylist = [];
+                for(i=0;i<data1.length;i++){
+                    
+                     var listKey =  {
+                            key : data1[i].show_cast.split(', '),
+                            data : data1[i]
+                        }
+                 arraylist.push(listKey);
+                 
                 }
-                $scope.data = [];
-                $scope.data.push($scope.data1);   
+                //to copy the array
+                $scope.data = JSON.parse(JSON.stringify(arraylist));
+                
             }, function(error){
                  $scope.error = error;
              });
@@ -79,21 +92,40 @@ myApp.controller('searchListController',['$scope','myFactory','$resource','$stat
         };
         if( $scope.selected === "2"){
             $scope.api.query({director:$scope.name , isArray: true},function(data){
-                $scope.data = data;
                 
-                $scope.indexed = function(index){ 
-                    $scope.arrayResult = data[index].show_cast.split(', ');
+                var arraylist = [];
+                for(i=0;i<data.length;i++){
+                    
+                     var listKey =  {
+                            key : data[i].show_cast.split(', '),
+                            data : data[i]
                         }
+                 arraylist.push(listKey);
+                 
+                }
+                //to copy the array
+                $scope.data = JSON.parse(JSON.stringify(arraylist));
+                console.log($scope.data);
             }, function(error){
                  $scope.error = error;
              });  
         };
         if( $scope.selected === "3"){
              $scope.api.query({actor:$scope.name , isArray: true},function(data){
-                $scope.data = data;
-                 $scope.indexed = function(index){ 
-                    $scope.arrayResult = data[index].show_cast.split(', ');
+                
+                 var arraylist = [];
+                for(i=0;i<data.length;i++){
+                    
+                     var listKey =  {
+                            key : data[i].show_cast.split(', '),
+                            data : data[i]
                         }
+                 arraylist.push(listKey);
+                 
+                }
+                 //to copy the array
+                $scope.data = JSON.parse(JSON.stringify(arraylist));
+                 
             }, function(error){
                  $scope.error = error;
              });
@@ -109,6 +141,9 @@ myApp.controller('searchListController',['$scope','myFactory','$resource','$stat
     $scope.toGoActor = function(val){
         $state.go('search',{id:2,name:val});
     }
+    
+    
+    
 }])
 //************************** searchListController Ends *************************//
 
@@ -130,18 +165,42 @@ myApp.controller('searchController',['$scope','myFactory','$resource','$statePar
     //IIFE
     (function(){
     if(id === 1){
-     $scope.data2 = $scope.api.query({director:$scope.name1 , isArray: true},function(data){
-         $scope.indexed = function(index){ 
-                $scope.arrayResult = data[index].show_cast.split(', ');
+     $scope.api.query({director:$scope.name1 , isArray: true},function(data){
+         var arraylist = [];
+                for(i=0;i<data.length;i++){
+                    
+                     var listKey =  {
+                            key : data[i].show_cast.split(', '),
+                            data : data[i]
+                        }
+                 arraylist.push(listKey);
+                 
                 }
-            });
+         //to copy the array
+                $scope.data2 = JSON.parse(JSON.stringify(arraylist));
+                
+            }, function(error){
+                 $scope.error = error;
+             });
         }
     if(id=== 2){
-     $scope.data2 = $scope.api.query({actor:$scope.name1 , isArray: true},function(data){
-         $scope.indexed = function(index){ 
-                $scope.arrayResult = data[index].show_cast.split(', ');
+     $scope.api.query({actor:$scope.name1 , isArray: true},function(data){
+         var arraylist = [];
+                for(i=0;i<data.length;i++){
+                    
+                     var listKey =  {
+                            key : data[i].show_cast.split(', '),
+                            data : data[i]
+                        }
+                 arraylist.push(listKey);
+                 
                 }
-            });
+         //to copy the array
+                $scope.data2 = JSON.parse(JSON.stringify(arraylist));
+            
+            }, function(error){
+                 $scope.error = error;
+             });
         }
     }());
     
